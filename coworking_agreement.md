@@ -29,11 +29,11 @@ Angelyn: Just directly and honestly, but in a kind, genuine, "I'm looking out fo
 *What is a teamwork-related skill you want to work on?*
 Listening skills, collaboration, discussion
 
-Angelyn: Making the other person/s feel comfortable being themselves, communicating more effectively, and ensuring everything I say/write/do is thoughtful enough to the other person/s based on their personality/preferences.
+Angelyn: Making the other person/s feel comfortable being themselves, communicating more effectively, and ensuring everything I say/write/do is thoughtful enough for the other person/s based on their personality/preferences.
 
 ## Optional: Other agreements
 *Other co-working agreements that were not captured in the above sections.*
 N/A
 ## Signatures
-______________ _______________
-Date: _________
+____Divya____Zarema______ __Angelyn_____________
+Date: _9/30/2026________
