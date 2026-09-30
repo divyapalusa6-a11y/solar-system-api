@@ -35,5 +35,5 @@ Angelyn: Making the other person/s feel comfortable being themselves, communicat
 *Other co-working agreements that were not captured in the above sections.*
 N/A
 ## Signatures
-______________ _______________
-Date: _________
+_____Divya __Zarema_______ __Angelyn_____________
+Date: _9/30/2026________
