@@ -1,5 +1,5 @@
 from flask import Blueprint,abort,make_response, request
-from ..models.planet import Planet,planets
+from ..models.planet import Planet
 from ..db import db
 
 planets_bp = Blueprint("planets_bp", __name__, url_prefix="/planets")
@@ -24,7 +24,32 @@ def create_planet():
 
 @planets_bp.get("")
 def get_all_planets():
-    query = db.select(Planet).order_by(Planet.id)
+
+    query = db.select(Planet)
+
+    description_param = request.args.get("description")
+
+    if description_param:
+        query = query.where(Planet.description.ilike(f"%{description_param}%"))
+    
+    year_length_param = request.args.get("year_length")
+    if year_length_param:
+        query = query.where(Planet.year_length.ilike(f"%{year_length_param}"))
+
+# query = db.select(Book)
+
+#     title_param = request.args.get("title")
+#     if title_param:
+#         query = query.where(Book.title.ilike(f"%{title_param}%"))
+
+#     description_param = request.args.get("description")
+#     if description_param:
+#         query = query.where(Book.description.ilike(f"%{description_param}%"))
+
+#     query = query.order_by(Book.id)
+
+
+    query = query.order_by(Planet.id)
     planets = db.session.scalars(query)
     planets_response = []
     for planet in planets:

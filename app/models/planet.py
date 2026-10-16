@@ -9,9 +9,9 @@ class Planet(db.Model):
         
 
 
-planets = [
-#     # Planet(1, "Earth", "Our home", "365"),
-#     # Planet(2, "Venus", "Hottest planet", "225"),
-#     # Planet(3, "Mars", "The red planet", "687"),
-#     # Planet(4, "Mercury", "Smallest planet", "88"),
-]
+# planets = [
+#     Planet(1, "Earth", "Our home", "365"),
+#     Planet(2, "Venus", "Hottest planet", "225"),
+#     Planet(3, "Mars", "The red planet", "687"),
+#     Planet(4, "Mercury", "Smallest planet", "88"),
+# ]
