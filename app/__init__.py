@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask
-from .routes.planet_routes import planets_bp
+from .routes.planet_routes import bp as planets_bp
 from .db import db, migrate
 from .models import planet
 
