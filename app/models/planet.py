@@ -1,5 +1,8 @@
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import ForeignKey
 from ..db import db
+from typing import Optional
+
 
 
 class Planet(db.Model):
@@ -7,14 +10,18 @@ class Planet(db.Model):
     name: Mapped[str]
     description: Mapped[str]
     year_length: Mapped[str]
-        
+    moon_id: Mapped[Optional[int]] = mapped_column(ForeignKey("moon.id"))
+    moon: Mapped[Optional["Moon"]] = relationship(back_populates="planets")
+   
 
     def to_dict(self):
         return dict(
             id=self.id, 
             name=self.name, 
             description=self.description,
-            year_length=self.year_length
+            year_length=self.year_length,
+            moon=self.moon.name if self.moon_id else None
+
         )
 
 
