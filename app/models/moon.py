@@ -1,24 +1,47 @@
+
+# Mapped and mapped_column define the database columns.
+# relationship connects two SQLAlchemy models.
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+# ForeignKey connects a column to a primary key in another table.
+from sqlalchemy import ForeignKey
+
 from ..db import db
 
+
 class Moon(db.Model):
+    # Unique ID for each moon. The database generates it automatically.
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+
+    # The moon's name, size, and description are stored in the database.
+    name: Mapped[str]
     size: Mapped[int]
     description: Mapped[str]
-    name: Mapped[str]
-    planets: Mapped[list["Planet"]] = relationship(back_populates="moon")
+
+    # This foreign key identifies which planet this moon belongs to.
+    # It references the id column in the planet table.
+    planet_id: Mapped[int] = mapped_column(ForeignKey("planet.id"))
+
+    # This relationship lets us access the Planet object for this moon.
+    # "moons" must match the relationship name in the Planet model.
+    planet: Mapped["Planet"] = relationship(back_populates="moons")
 
     def to_dict(self):
-        moon_as_dict = {
+        # Convert the Moon object into a dictionary for a JSON response.
+        return {
             "id": self.id,
             "name": self.name,
             "size": self.size,
-            "description": self.description
+            "description": self.description,
+            "planet_id": self.planet_id
         }
-        
-        return moon_as_dict
-    
+
     @classmethod
     def from_dict(cls, moon_data):
-        new_moon = cls(name=moon_data["name"], size=moon_data["size"], description=moon_data["description"])
-        return new_moon
+        # Create a Moon object using the data received in the request.
+        # The route will associate it with a planet.
+        return cls(
+            name=moon_data["name"],
+            size=moon_data["size"],
+            description=moon_data["description"]
+        )

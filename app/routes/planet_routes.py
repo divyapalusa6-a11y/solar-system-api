@@ -1,6 +1,7 @@
 from flask import Blueprint,abort,make_response, request
 from .route_utilities import validate_model
 from ..models.planet import Planet
+from ..models.moon import Moon
 from ..db import db
 
 bp = Blueprint("planets_bp", __name__, url_prefix="/planets")
@@ -34,24 +35,10 @@ def get_all_planets():
 @bp.get("/<planet_id>")
 def get_one_planet(planet_id):
     
-    planet = validate_model(Planet, id)
+    planet = validate_model(Planet, planet_id)
     return planet.to_dict()
-  
-# def validate_planet(planet_id):
-#     try:
-#         planet_id = int(planet_id)
-#     except:
-#         response = {"message": f"planet {planet_id} invalid"}
-#         abort(make_response(response , 400))
 
-#     query = db.select(Planet).where(Planet.id == planet_id)
-#     planet = db.session.scalar(query)
 
-#     if not planet:
-#         response = {"message": f"planet {planet_id} not found"}
-#         abort(make_response(response, 404))
-
-#     return planet
 
 @bp.put("/<planet_id>")
 def update_planet(planet_id):
@@ -72,40 +59,31 @@ def delete_planet(planet_id):
     db.session.commit()
 
     return make_response("", 204)
+
+
+# Create a moon for a specific planet.
+@bp.post("/<planet_id>/moons")
+def create_moon(planet_id):
+    # Check that the planet exists.
+    planet = validate_model(Planet, planet_id)
+
+    # Read the moon's information from the JSON request body.
+    request_body = request.get_json()
+
+    # Create a Moon object from the request data.
+    new_moon = Moon.from_dict(request_body)
+
+    # Associate the moon with the selected planet.
+    new_moon.planet = planet
+
+    # Save the new moon to the database.
+    db.session.add(new_moon)
+    db.session.commit()
+
+    # Return the new moon's data and status code 201 (Created).
+    return new_moon.to_dict(), 201
+
     
-# @planets_bp.get("")
-# def get_all_planets():
-#     results = []
-
-#     for planet in planets:
-#         results.append(dict(
-#         id=planet.id,
-#         name=planet.name,
-#         description=planet.description,
-#         year_length=planet.year_length    
-#         ))
-
-#     return results
-
-# @planets_bp.get("/<id>")
-# def handle_planet(id):
-#     planet = validate_planet(id)
-#     return dict(
-#         id=planet.id,
-#         name=planet.name,
-#         description=planet.description,
-#         year_length=planet.year_length     
-
-#     )
-# def validate_planet(id):
-#     try:
-#         id = int(id)
-#     except:
-#         abort(make_response({"message": f"planet {id} invalid"}, 400))
-#     for planet in planets:
-#         if planet.id == id:
-#             return planet
-#     abort(make_response({"message": f"planet {id} not found"}, 404))
 
 
 
